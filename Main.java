@@ -7,14 +7,18 @@ import java.io.FileReader;
 public class Main {
     public static void main(String[] args) {
         Theater theater = new Theater();
-        String inputFile = args[0];
-        // String outputFile = args[1];
-        // String inputFile = "D:/GitHub/Interview/Movie-Theater-Seating/fullInput.txt";
+        try {
+            String inputFile = args[0];
+            // String inputFile = "D:/GitHub/Interview/Movie-Theater-Seating/fullInput.txt";
 
-        Main mainClass = new Main();
-        mainClass.ProcessInputFile(inputFile, theater);
-        theater.PrintReservations();
-        theater.PrintTheaterLayout();
+            Main mainClass = new Main();
+            mainClass.ProcessInputFile(inputFile, theater);
+            theater.PrintReservations();
+            theater.PrintTheaterLayout();
+        } catch (Exception e) {
+            System.out.println("Must specify a input file argument!");
+            e.printStackTrace();
+        }
     }
 
     public void ProcessInputFile(String filename, Theater theater) {
