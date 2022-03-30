@@ -15,7 +15,7 @@ reservation requests. The goal of the challenge is to maximize both customer sat
 You are given a file with one line of input for each reservation request. The order of the lines reflects the order in which the reservation requests were recieved. 
 Each line is comprised of a reservation identifier, followed by a space, and then the number of seats requested. The reservation identifier will have the format: 
 R####.     
-<img width="414.72" height="233.28" src="https://user-images.githubusercontent.com/77221025/160896693-de2724ca-a427-46da-b85d-569ec15f31b3.png">       
+<img width="352.512" height="198.288" src="https://user-images.githubusercontent.com/77221025/160896693-de2724ca-a427-46da-b85d-569ec15f31b3.png">       
 
 The program should output a file containing the seating assignments for each request. Each row in the file should include the reservation number followed by a space, 
 and then a comma-delimitted list of the assigned seats.      
