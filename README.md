@@ -19,6 +19,8 @@ R####.
 
 The program should output a file containing the seating assignments for each request. Each row in the file should include the reservation number followed by a space, 
 and then a comma-delimitted list of the assigned seats.      
+<img width="352.512" height="198.288" src="https://user-images.githubusercontent.com/77221025/160897972-3237285c-2116-49df-82cc-fed0426a9c93.png">       
+        
 
 ## Assumptions
 In coming up with my solution, I made the following assumptions: 
