@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 
 /**
  * Main
@@ -8,9 +7,9 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
         Theater theater = new Theater();
-        // String inputFile = args[0];
+        String inputFile = args[0];
         // String outputFile = args[1];
-        String inputFile = "D:/GitHub/Interview/Movie-Theater-Seating/fullInput.txt";
+        // String inputFile = "D:/GitHub/Interview/Movie-Theater-Seating/fullInput.txt";
 
         Main mainClass = new Main();
         mainClass.ProcessInputFile(inputFile, theater);
