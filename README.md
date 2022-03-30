@@ -5,6 +5,7 @@
 * [Overview](#Overview)
 * [Assumptions](#Assumptions)
 * [How to Run](#how-to-run)
+* [Class Diagram](#class-diagram)
 * [Code](#Code)
 * [Technologies](#Technologies)
 
@@ -35,6 +36,10 @@ This program was built in Visual Studio Code. In order to run follow the followi
 - Compile the Java program with the following line: `javac Main.java`   <-- Make sure that the .class files are created for each .java
 - Run the Java program with the following line: `java Main input.txt`   <-- Change input.txt to whichever input file you would like to use in the directory
 - Alternatively, you can also specify the full path to run: `java Main "D:\GitHub\Interview\Movie-Theater-Seating\input.txt"`
+
+## Class Diagram
+![MovieTheaterSeating drawio](https://user-images.githubusercontent.com/77221025/160918472-98360e9d-8c40-41a6-987e-c755866032c6.png)
+
 
 ## Code
 A brief description of all of the files is as follows:
