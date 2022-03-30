@@ -70,9 +70,6 @@ public class Theater {
 
         int backRowPointer = theaterRows / 2;
         int frontRowPointer = backRowPointer - 1;
-        
-        int firstSeatInlineup; // points to first seat in line of empty seats
-        int currentSeatInlineup; // points to current seat in line of empty seats
 
         int seatsLeftToAssign = reservation.GetAssignedSeats();
         ArrayList<String> reservationCodes = new ArrayList<String>();
@@ -85,79 +82,8 @@ public class Theater {
                 break;
             }
 
-            firstSeatInlineup = -1;
-
-            if (!(backRowPointer >= theaterRows)) { // see if back row pointer found large enough row
-                for (int i = 0; i < theaterSeatsPerRow; i++) {
-                    if (seatsLeftToAssign <= 0) {
-                        break;
-                    } else if (seatsLeft[backRowPointer] < seatsLeftToAssign) {
-                        break;
-                    }
-
-                    if (seats[backRowPointer][i] == 0 && firstSeatInlineup == -1) {
-                        firstSeatInlineup = i;
-                        currentSeatInlineup = i;
-                    } else if (seats[backRowPointer][i] == 0) {
-                        currentSeatInlineup = i;
-                        if ((currentSeatInlineup + 1) - firstSeatInlineup == seatsLeftToAssign) {
-                            for (int j = firstSeatInlineup; j <= currentSeatInlineup; j++) {
-                                seats[backRowPointer][j] = 1;
-                                totalSeatsLeft--;
-                                seatsLeftToAssign--;
-                                seatsLeft[backRowPointer] = seatsLeft[backRowPointer] - 1;
-                                reservationCodes.add(seatCodes.get(backRowPointer).get(j));
-                            }
-                            int buffer = seatSafetyBuffer;
-                            currentSeatInlineup++;
-                            while (buffer > 0 && currentSeatInlineup < theaterSeatsPerRow) {
-                                seats[backRowPointer][currentSeatInlineup] = 2;
-                                buffer--;
-                                currentSeatInlineup++;
-                            }
-                        }
-                    } else {
-                        firstSeatInlineup = -1;
-                    }
-                }
-            }
-
-            firstSeatInlineup = -1;
-
-            if (!(frontRowPointer < 0)) { // see if front row pointer found large enough row
-                for (int i = 0; i < theaterSeatsPerRow; i++) {
-                    if (seatsLeftToAssign <= 0) {
-                        break;
-                    } else if (seatsLeft[frontRowPointer] < seatsLeftToAssign) {
-                        break;
-                    }
-
-                    if (seats[frontRowPointer][i] == 0 && firstSeatInlineup == -1) {
-                        firstSeatInlineup = i;
-                        currentSeatInlineup = i;
-                    } else if (seats[frontRowPointer][i] == 0) {
-                        currentSeatInlineup = i;
-                        if ((currentSeatInlineup + 1) - firstSeatInlineup == seatsLeftToAssign) {
-                            for (int j = firstSeatInlineup; j <= currentSeatInlineup; j++) {
-                                seats[frontRowPointer][j] = 1;
-                                totalSeatsLeft--;
-                                seatsLeftToAssign--;
-                                seatsLeft[frontRowPointer] = seatsLeft[frontRowPointer] - 1;
-                                reservationCodes.add(seatCodes.get(frontRowPointer).get(j));
-                            }
-                            int buffer = seatSafetyBuffer;
-                            currentSeatInlineup++;
-                            while (buffer > 0 && currentSeatInlineup < theaterSeatsPerRow) {
-                                seats[frontRowPointer][currentSeatInlineup] = 2;
-                                buffer--;
-                                currentSeatInlineup++;
-                            }
-                        }
-                    } else {
-                        firstSeatInlineup = -1;
-                    }
-                }
-            }
+            seatsLeftToAssign = CheckRoomForFullGroup(backRowPointer, seatsLeftToAssign, reservationCodes);
+            seatsLeftToAssign = CheckRoomForFullGroup(frontRowPointer, seatsLeftToAssign, reservationCodes);
 
             frontRowPointer--;
             backRowPointer++;
@@ -170,63 +96,9 @@ public class Theater {
             if (backRowPointer >= theaterRows && frontRowPointer < 0) { // No room found to accomodate group
                 break;
             }
-            
-            if (!(backRowPointer >= theaterRows)) { // fill in any empty seats in back row
-                for (int i = 0; i < theaterSeatsPerRow; i++) {
-                    if (seatsLeftToAssign <= 0) {
-                        break;
-                    } else if (seatsLeft[backRowPointer] <= 0) {
-                        break;
-                    }
 
-                    if (seats[backRowPointer][i] == 0) {
-                        seats[backRowPointer][i] = 1;
-                        totalSeatsLeft--;
-                        seatsLeftToAssign--;
-                        seatsLeft[backRowPointer] = seatsLeft[backRowPointer] - 1;
-                        reservationCodes.add(seatCodes.get(backRowPointer).get(i));
-
-                        if (seatsLeftToAssign <= 0) {
-                            int buffer = seatSafetyBuffer;
-                            int index = i + 1;
-                            while (buffer > 0 && index < theaterSeatsPerRow) {
-                                seats[backRowPointer][index] = 2;
-                                buffer--;
-                                index++;
-                            }
-                        }
-                    }
-                }
-                
-            }
-
-            if (!(frontRowPointer >= theaterRows)) { // fill in any empty seats in front row
-                for (int i = 0; i < theaterSeatsPerRow; i++) {
-                    if (seatsLeftToAssign <= 0) {
-                        break;
-                    } else if (seatsLeft[frontRowPointer] <= 0) {
-                        break;
-                    }
-
-                    if (seats[frontRowPointer][i] == 0) {
-                        seats[frontRowPointer][i] = 1;
-                        totalSeatsLeft--;
-                        seatsLeftToAssign--;
-                        seatsLeft[frontRowPointer] = seatsLeft[frontRowPointer] - 1;
-                        reservationCodes.add(seatCodes.get(frontRowPointer).get(i));
-
-                        if (seatsLeftToAssign <= 0) {
-                            int buffer = seatSafetyBuffer;
-                            int index = i + 1;
-                            while (buffer > 0 && index < theaterSeatsPerRow) {
-                                seats[frontRowPointer][index] = 2;
-                                buffer--;
-                                index++;
-                            }
-                        }
-                    }
-                }
-            }
+            seatsLeftToAssign = FillAnyEmptySeats(backRowPointer, seatsLeftToAssign, reservationCodes);
+            seatsLeftToAssign = FillAnyEmptySeats(frontRowPointer, seatsLeftToAssign, reservationCodes);
 
             frontRowPointer--;
             backRowPointer++;
@@ -234,6 +106,85 @@ public class Theater {
 
         reservation.AssignSeats(reservationCodes);
         reservations.add(reservation);
+    }
+
+    /**
+     * see if row can fit entire group
+     */
+    private int CheckRoomForFullGroup(int rowPointer, int seatsLeftToAssign, ArrayList<String> reservationCodes) { 
+        int firstSeatInlineup = -1;
+        int currentSeatInlineup = 0; // points to current seat in line of empty seats
+
+            if (!(rowPointer >= theaterRows || rowPointer < 0)) { // see if pointer is in range of rows
+                for (int i = 0; i < theaterSeatsPerRow; i++) {
+                    if (seatsLeftToAssign <= 0) {
+                        break;
+                    } else if (seatsLeft[rowPointer] < seatsLeftToAssign) {
+                        break;
+                    }
+
+                    if (seats[rowPointer][i] == 0 && firstSeatInlineup == -1) {
+                        firstSeatInlineup = i;
+                        currentSeatInlineup = i;
+                    } else if (seats[rowPointer][i] == 0) {
+                        currentSeatInlineup = i;
+                        if ((currentSeatInlineup + 1) - firstSeatInlineup == seatsLeftToAssign) {
+                            for (int j = firstSeatInlineup; j <= currentSeatInlineup; j++) {
+                                seats[rowPointer][j] = 1;
+                                totalSeatsLeft--;
+                                seatsLeftToAssign--;
+                                seatsLeft[rowPointer] = seatsLeft[rowPointer] - 1;
+                                reservationCodes.add(seatCodes.get(rowPointer).get(j));
+                            }
+                            int buffer = seatSafetyBuffer;
+                            currentSeatInlineup++;
+                            while (buffer > 0 && currentSeatInlineup < theaterSeatsPerRow) {
+                                seats[rowPointer][currentSeatInlineup] = 2;
+                                buffer--;
+                                currentSeatInlineup++;
+                            }
+                        }
+                    } else {
+                        firstSeatInlineup = -1;
+                    }
+                }
+            }
+        return seatsLeftToAssign;
+    }
+
+    /**
+     * fill any seats in row if there are seats left to assign
+     */
+    private int FillAnyEmptySeats(int rowPointer, int seatsLeftToAssign, ArrayList<String> reservationCodes) {
+        
+        if (!(rowPointer >= theaterRows || rowPointer < 0)) { // fill in any empty seats in row
+            for (int i = 0; i < theaterSeatsPerRow; i++) {
+                if (seatsLeftToAssign <= 0) {
+                    break;
+                } else if (seatsLeft[rowPointer] <= 0) {
+                    break;
+                }
+
+                if (seats[rowPointer][i] == 0) {
+                    seats[rowPointer][i] = 1;
+                    totalSeatsLeft--;
+                    seatsLeftToAssign--;
+                    seatsLeft[rowPointer] = seatsLeft[rowPointer] - 1;
+                    reservationCodes.add(seatCodes.get(rowPointer).get(i));
+
+                    if (seatsLeftToAssign <= 0) {
+                        int buffer = seatSafetyBuffer;
+                        int index = i + 1;
+                        while (buffer > 0 && index < theaterSeatsPerRow) {
+                            seats[rowPointer][index] = 2;
+                            buffer--;
+                            index++;
+                        }
+                    }
+                }
+            }
+        }
+        return seatsLeftToAssign;
     }
 
     public void PrintReservations() { // write each assigned reservation to output file
