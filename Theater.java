@@ -6,13 +6,14 @@ import java.io.IOException;
 public class Theater {
     private int theaterRows;
     private int theaterSeatsPerRow;
-    private int seatSafetyBuffer;
-    private int totalSeatsLeft;
-    private int[] seatsLeft;
-    private int[][] seats;
-    private HashMap<Integer, HashMap<Integer, String>> seatCodes = new HashMap<Integer, HashMap<Integer, String>>();
-    private ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+    private int seatSafetyBuffer; // buffer of how many empty seats in between groups in same row
+    private int totalSeatsLeft; // total number of seats left in theater
+    private int[] seatsLeft; // seats left per row
+    private int[][] seats; // track status of all seats
+    private HashMap<Integer, HashMap<Integer, String>> seatCodes = new HashMap<Integer, HashMap<Integer, String>>(); // unique codes for each seat
+    private ArrayList<Reservation> reservations = new ArrayList<Reservation>(); // all registered reservations that were processed
 
+    // constructor
     public Theater() {
         theaterRows = 10;
         theaterSeatsPerRow = 20;
@@ -21,6 +22,10 @@ public class Theater {
         GenerateTheater();
     }
 
+    /**
+     * setup structures for holder theater data
+     * fill dual HashMap with row, col coords as keys and generate unique seatCode for value
+     */
     private void GenerateTheater() {
         totalSeatsLeft = theaterRows * theaterSeatsPerRow;
         seatsLeft = new int[theaterRows];
@@ -48,7 +53,10 @@ public class Theater {
         }
     }
 
-    public void ProcessReservation(String fileLine) { // parse fileline provided, create reservation object, assign seats to reservation
+    /**
+     * parse fileline provided, create reservation object, assign seats to reservation
+     */
+    public void ProcessReservation(String fileLine) { 
         String[] tokens = fileLine.split(" "); // [0] == code, [1] == assigned number of seats
         String code = tokens[0];
         int assignedNoOfSeats = 0;
@@ -63,17 +71,21 @@ public class Theater {
         AssignSeats(reservation);
     }
 
+    /**
+     * main algorithm that decides which seats to allocate for reservation request
+     */
     private void AssignSeats(Reservation reservation) {
-        if (reservation.GetAssignedSeats() > totalSeatsLeft) {
+        if (reservation.GetAssignedSeats() > totalSeatsLeft) { // check if there are enough seats in theater for reservation
             return;
         }
 
-        int backRowPointer = theaterRows / 2;
-        int frontRowPointer = backRowPointer - 1;
+        int backRowPointer = theaterRows / 2; // moves towards the back rows
+        int frontRowPointer = backRowPointer - 1; // moves towards the front rows
 
         int seatsLeftToAssign = reservation.GetAssignedSeats();
         ArrayList<String> reservationCodes = new ArrayList<String>();
         
+        // Loop through from center rows and see if entire reservation request fits in a single row
         while (true) {
             if (seatsLeftToAssign <= 0) {
                 break;
@@ -92,6 +104,7 @@ public class Theater {
         backRowPointer = theaterRows / 2;
         frontRowPointer = backRowPointer - 1;
 
+        // Loop through from center rows and fill any open seats until there are no seats left to asign
         while (seatsLeftToAssign > 0) {
             if (backRowPointer >= theaterRows && frontRowPointer < 0) { // No room found to accomodate group
                 break;
@@ -187,7 +200,10 @@ public class Theater {
         return seatsLeftToAssign;
     }
 
-    public void PrintReservations() { // write each assigned reservation to output file
+    /**
+     * write each assigned reservation to output file in the following string format: R### A#,B#,C##
+     */
+    public void PrintReservations() { 
         try {
             FileWriter myWriter = new FileWriter("output.txt");
 
@@ -203,6 +219,9 @@ public class Theater {
           }
     }
 
+    /**
+     * prints entire theater seating reservations in a visual manner, with x = taken, / = blocked, and _ = available
+     */
     public void PrintTheaterLayout() {
         // Screen Line
         StringBuilder screen = new StringBuilder();

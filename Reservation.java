@@ -5,6 +5,7 @@ public class Reservation {
     private int assignedSeats;
     private ArrayList<String> seats;
 
+    // Constructors
     public Reservation(String reservationIdentifier, int assignedNoOfSeats) {
         reservationID = reservationIdentifier;
         assignedSeats = assignedNoOfSeats;
@@ -15,6 +16,7 @@ public class Reservation {
         assignedSeats = res.GetAssignedSeats();
     }
 
+    // Getters
     public String GetReservationID() {
         return reservationID;
     }
@@ -23,10 +25,16 @@ public class Reservation {
         return assignedSeats;
     }
 
+    /**
+     * copies over reserved seats provided by Theater
+     */
     public void AssignSeats(ArrayList<String> seatsForReservation) {
         seats = new ArrayList<>(seatsForReservation);
     }
 
+    /**
+     * returns reservation details in the following string format: R### A#,B#,C##
+     */
     public String PrintSeats() {
         StringBuilder reservationDetails = new StringBuilder();
         reservationDetails.append(reservationID);

@@ -21,6 +21,9 @@ public class Main {
         }
     }
 
+    /**
+     * read file line by line and have theater process it into a reservation
+     */
     public void ProcessInputFile(String filename, Theater theater) {
         BufferedReader reader;
         try {
