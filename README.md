@@ -1,5 +1,5 @@
 # Movie-Theater-Seating
-<img width="276.48" height="155.52" src="https://user-images.githubusercontent.com/77221025/160891504-c9ff8461-e941-4e11-8404-4eb6b8950e10.png">
+<img width="414.72" height="233.28" src="https://user-images.githubusercontent.com/77221025/160891504-c9ff8461-e941-4e11-8404-4eb6b8950e10.png">
 
 ## Table of Contents
 * [Overview](#Overview)
