@@ -91,6 +91,8 @@ public class Theater {
                 for (int i = 0; i < theaterSeatsPerRow; i++) {
                     if (seatsLeftToAssign <= 0) {
                         break;
+                    } else if (seatsLeft[backRowPointer] < seatsLeftToAssign) {
+                        break;
                     }
 
                     if (seats[backRowPointer][i] == 0 && firstSeatInlineup == -1) {
@@ -125,6 +127,8 @@ public class Theater {
             if (!(frontRowPointer < 0)) { // see if front row pointer found large enough row
                 for (int i = 0; i < theaterSeatsPerRow; i++) {
                     if (seatsLeftToAssign <= 0) {
+                        break;
+                    } else if (seatsLeft[frontRowPointer] < seatsLeftToAssign) {
                         break;
                     }
 
@@ -163,7 +167,7 @@ public class Theater {
         frontRowPointer = backRowPointer - 1;
 
         while (seatsLeftToAssign > 0) {
-            if (backRowPointer >= theaterRows && frontRowPointer < 0) { // No row large enough to accomodate group found
+            if (backRowPointer >= theaterRows && frontRowPointer < 0) { // No room found to accomodate group
                 break;
             }
             
@@ -171,7 +175,10 @@ public class Theater {
                 for (int i = 0; i < theaterSeatsPerRow; i++) {
                     if (seatsLeftToAssign <= 0) {
                         break;
+                    } else if (seatsLeft[backRowPointer] <= 0) {
+                        break;
                     }
+
                     if (seats[backRowPointer][i] == 0) {
                         seats[backRowPointer][i] = 1;
                         totalSeatsLeft--;
@@ -197,7 +204,10 @@ public class Theater {
                 for (int i = 0; i < theaterSeatsPerRow; i++) {
                     if (seatsLeftToAssign <= 0) {
                         break;
+                    } else if (seatsLeft[frontRowPointer] <= 0) {
+                        break;
                     }
+
                     if (seats[frontRowPointer][i] == 0) {
                         seats[frontRowPointer][i] = 1;
                         totalSeatsLeft--;
