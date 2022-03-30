@@ -16,7 +16,7 @@ Wordle consists of six 5-letter rows in which player's can enter their guesses. 
 This program was built in Visual Studio Code. In order to run follow the following steps:
 - Switch Terminal shell from PowerShell to Command Prompt
 - Compile the Java program with the following line: `javac Main.java`   <-- Make sure that the .class files are created for each .java
-- Run the Java program with the following line: `java Main`
+- Run the Java program with the following line: `java Main input.txt`   <-- Change input.txt to whichever input file you would like to use in the directory
 
 ## Code
 A brief description of all of the files is as follows:
