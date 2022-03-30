@@ -10,6 +10,11 @@ public class Reservation {
         assignedSeats = assignedNoOfSeats;
     }
 
+    public Reservation(Reservation res) {
+        reservationID = res.GetReservationID();
+        assignedSeats = res.GetAssignedSeats();
+    }
+
     public String GetReservationID() {
         return reservationID;
     }
@@ -33,6 +38,8 @@ public class Reservation {
 
         if (seats.size() > 0) { // remove extra delmitter at end of string
             reservationDetails.setLength(reservationDetails.length() - 1);
+        } else {
+            reservationDetails.append("Not enough seats!");
         }
 
         reservationDetails.append("\n");
